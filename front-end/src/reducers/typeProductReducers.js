@@ -18,7 +18,7 @@ export const createTypeProductReducer = (state = {}, action )=> {
     case typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_REQUEST:
       return {loading: true};
     case typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_SUCCESS:
-      return { loading: false, typeProduct: action.payload};
+      return { loading: false, message: 'Create TypeProduct Successfully'};
     case typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_FAIL:
       return { loading: false, error: action.payload};
     default:
@@ -31,7 +31,7 @@ export const updateTypeProductReducer = (state = {}, action )=> {
     case typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_REQUEST:
       return {loading: true};
     case typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_SUCCESS:
-      return { loading: false, typeProduct: action.payload};
+      return { loading: false, message: 'Update TypeProduct Successfully'};
     case typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_FAIL:
       return { loading: false, error: action.payload};
     default:
@@ -44,7 +44,7 @@ export const deleteTypeProductReducer = (state = {}, action )=> {
     case typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_REQUEST:
       return {loading: true};
     case typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_SUCCESS:
-      return { loading: false, typeProduct: action.payload};
+      return { loading: false, message: 'Delete TypeProduct Successfully'};
     case typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_FAIL:
       return { loading: false, error: action.payload};
     default:

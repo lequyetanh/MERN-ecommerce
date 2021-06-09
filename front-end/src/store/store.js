@@ -7,13 +7,11 @@ import * as typeProductReducer from './../reducers/typeProductReducers';
 const reducer = combineReducers({
   userInfor: userReducer.userInforReducer,
   userSignIn: userReducer.userSignInReducer,
-  userLogIn: userReducer.userLogInReducer,
-  userLogOut: userReducer.userLogOutReducer,
-  // userUpdate: userReducer.updateUserReducer,
-  userCreate: userReducer.createUserReducer,
   userDelete: userReducer.deleteUserReducer,
 
   newProduct: productReducer.newProductReducer,
+  topProduct: productReducer.topProductReducer,
+  productRelative: productReducer.productRelativeReducer,
   productFromId: productReducer.productFromIdReducer,
   productFromTypeProduct: productReducer.productFromTypeProductReducer,
   allProduct: productReducer.allProductReducer,

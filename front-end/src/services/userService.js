@@ -12,7 +12,7 @@ export function userSignIn(data) {
 };
 
 export function userLogIn(data) {
-  console.log(data)
+  // console.log(data)
   return axios({
       url: `${config.USER_URL}/login`,
       method: 'POST',
@@ -23,12 +23,9 @@ export function userLogIn(data) {
 };
 
 export function userLogOut(data) {
-  return axios({
-      url: `${config.USER_URL}/logout`,
-      method: 'POST',
-      data
-  }).catch(err => {
-      console.log(err);
+  return axios.get(`${config.USER_URL}/logout`, data)
+  .catch(error => {
+    console.log(error)
   })
 };
 
@@ -42,14 +39,19 @@ export function getAllUser() {
 };
 
 export function getUserFromToken(data) {
-  console.log(data)
-  return axios({
-      url: `${config.USER_URL}/checkUser`,
-      method: 'POST',
-      data
-  }).catch(err => {
-      console.log(err);
+  // console.log(data)
+  // return axios({
+  //     url: `${config.USER_URL}/checkUser`,
+  //     method: 'GET',
+  //     data
+  // }).catch(err => {
+  //     console.log(err);
+  // })
+  return axios.get(`${config.USER_URL}/checkUser`, data)
+  .catch(error => {
+    console.log(error)
   })
+  ;
 };
 
 export function updateUser(id,data) {

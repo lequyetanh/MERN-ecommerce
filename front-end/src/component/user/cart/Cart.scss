@@ -1,16 +1,8 @@
-.product-quantity{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
+.remove{
+  width: 100px;
+  height: 100px;
 
-  input{
-    width: 50px;
-  }
-
-  i{
-    margin: 10px;
-    font-size: 25px;
-    cursor: pointer;
+  .fa-trash-alt{
+    font-size: 20px;
   }
 }
-

@@ -33,19 +33,32 @@ packageRoute.route('/Product/:id').get((req, res) => {
     })
 });
 
-packageRoute.route('/typeProduct/:typeProduct').get((req, res) => {
-  packageModel.find({type: req.params.typeProduct}).sort({id: 1}).exec((error, data) => {
+packageRoute.route('/typeProduct/:typeProduct/:page/:direction/:id').get((req, res) => {
+  let direction = req.params.direction;
+  if(direction == 'next'){
+    packageModel.find({ $and: [ { type: req.params.typeProduct }, { id: {$gte: req.params.id}}]}).limit(21).sort({id: 1}).exec((error, data) => {
       if (error) {
         return next(error)
       } else {
         res.json(data)
       }
     })
+  }
+  if(direction == 'previous'){
+    packageModel.find({ $and: [ { type: req.params.typeProduct }, { id: {$lte: req.params.id}}]}).limit(21).sort({id: 1}).exec((error, data) => {
+      if (error) {
+        return next(error)
+      } else {
+        res.json(data)
+      }
+    })
+  }
+
 });
 
 
 packageRoute.route('/get8NewProduct').get((req, res) => {
-  packageModel.find().limit(8).sort({
+  packageModel.find().limit(9).sort({
     id: -1
   }).exec((error, data) => {
     if (error) {
@@ -58,7 +71,20 @@ packageRoute.route('/get8NewProduct').get((req, res) => {
 });
 
 packageRoute.route('/get8TopProduct').get((req, res) => {
-  packageModel.find().limit(8).sort({
+  packageModel.find({rate: {$gte: 8}}).limit(9).sort({
+    id: -1
+  }).exec((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      // console.log(data);
+      res.json(data)
+    }
+  })
+});
+
+packageRoute.route('/get8ProductRelative/:typeProduct/:id').get((req, res) => {
+  packageModel.find({ $and: [ { type: req.params.typeProduct }, { id: {$ne: req.params.id} } ] }).limit(8).sort({
     id: -1
   }).exec((error, data) => {
     if (error) {

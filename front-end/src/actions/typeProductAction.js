@@ -18,8 +18,8 @@ export const getAllTypeProduct = () => async(dispatch) => {
 export const createTypeProduct = (product) => async(dispatch) => {
   dispatch({ type: typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_REQUEST});
   try{
-    const { data } = await typeProductService.createTypeProduct(product);
-    dispatch({type: typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_SUCCESS, payload: data});
+    await typeProductService.createTypeProduct(product);
+    dispatch({type: typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_SUCCESS});
   }catch(error){
     dispatch({
       type: typeProductConstant.TYPEPRODUCT_CREATE_TYPEPRODUCT_FAIL,
@@ -31,8 +31,8 @@ export const createTypeProduct = (product) => async(dispatch) => {
 export const updateTypeProduct = (id, product) => async(dispatch) => {
   dispatch({ type: typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_REQUEST});
   try{
-    const { data } = await typeProductService.updateTypeProduct(id, product);
-    dispatch({type: typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_SUCCESS, payload: data});
+    await typeProductService.updateTypeProduct(id, product);
+    dispatch({type: typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_SUCCESS});
   }catch(error){
     dispatch({
       type: typeProductConstant.TYPEPRODUCT_UPDATE_TYPEPRODUCT_FROM_ID_FAIL,
@@ -44,8 +44,8 @@ export const updateTypeProduct = (id, product) => async(dispatch) => {
 export const deleteProduct = (id) => async(dispatch) => {
   dispatch({ type: typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_REQUEST});
   try{
-    const { data } = await typeProductService.deleteProduct(id);
-    dispatch({type: typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_SUCCESS, payload: data});
+    await typeProductService.deleteProduct(id);
+    dispatch({type: typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_SUCCESS});
   }catch(error){
     dispatch({
       type: typeProductConstant.TYPEPRODUCT_DELETE_TYPEPRODUCT_FROM_ID_FAIL,

@@ -1,8 +1,8 @@
 import React, {Fragment, useEffect} from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import routes from './routes';
 import {useDispatch, useSelector} from 'react-redux';
-import * as userAction  from './actions/userActions'
+import * as userAction from './actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -13,9 +13,9 @@ function App() {
 
   return (
     <Router>
-     <Fragment>
-       {showRoutes(routes)}
-     </Fragment>
+      <Fragment>
+        {showRoutes(routes)}
+      </Fragment>
     </Router>
   );
 }

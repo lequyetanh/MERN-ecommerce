@@ -32,9 +32,11 @@ export const getUserFromToken = () => async(dispatch) => {
     let cookie = getCookie('token');
     // console.log(cookie)
     if(cookie){
-      let { data } = await userService.getUserFromToken({token: cookie});
-      // console.log(data)
+      let { data } = await userService.getUserFromToken({ headers: { authorization: cookie }});
+      console.log(data)
       dispatch({type: userConstant.USER_GET_USER_FROM_TOKEN_SUCCESS, payload: data});
+    }else{
+      dispatch({type: userConstant.USER_LOGOUT_SUCCESS});
     }
   } catch(error){
     dispatch({
@@ -44,13 +46,29 @@ export const getUserFromToken = () => async(dispatch) => {
   }
 }
 
+export const userSignIn = (data) => async(dispatch) => {
+  // console.log(data)
+  dispatch({ type: userConstant.USER_SIGNIN_REQUEST});
+  try{
+    let dataReturn = await userService.userSignIn(data);
+    console.log(dataReturn)
+    dispatch({type: userConstant.USER_SIGNIN_SUCCESS, payload: dataReturn.data});
+  }catch(error){
+    dispatch({
+      type: userConstant.USER_SIGNIN_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+}
+
 export const userLogIn = (userInfor) => async(dispatch) => {
   dispatch({ type: userConstant.USER_LOGIN_REQUEST});
   try{
-    let { data } = await userService.userLogIn(userInfor);
+    let dataReturn = await userService.userLogIn(userInfor);
     // console.log(data)
-    setCookie('token', data.token, 1);
-    let { data } = await userService.getUserFromToken({token: data.token})
+    setCookie('token', dataReturn.data.token, 1);
+    let cookie = getCookie('token');
+    let { data } = await userService.getUserFromToken({ headers: { authorization: cookie }})
     dispatch({type: userConstant.USER_LOGIN_SUCCESS, payload: data});
   }catch(error){
     dispatch({
@@ -60,12 +78,29 @@ export const userLogIn = (userInfor) => async(dispatch) => {
   }
 }
 
+export const userLogOut = () => async(dispatch) => {
+  dispatch({ type: userConstant.USER_LOGOUT_REQUEST});
+  try{
+    let cookie = getCookie('token');
+    let dataReturn = await userService.userLogOut({ headers: { authorization: cookie }})
+    setCookie('token', dataReturn.data.token, 0);
+    dispatch({type: userConstant.USER_LOGOUT_SUCCESS});
+  }catch(error){
+    dispatch({
+      type: userConstant.USER_LOGOUT_FAIL,
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message
+    })
+  }
+}
+
+
 export const updateUser = (id, userInfor) => async(dispatch) => {
   dispatch({ type: userConstant.USER_UPDATE_USER_FROM_ID_REQUEST});
   try{
     let cookie = getCookie('token');
     await userService.updateUser(id, userInfor);
-    const { data  } = await userService.getUserFromToken({token: cookie})
+    // console.log(userInfor)
+    const { data  } = await userService.getUserFromToken({ headers: { authorization: cookie }})
     // console.log(data)
     dispatch({type: userConstant.USER_UPDATE_USER_FROM_ID_SUCCESS, payload: data});
   }catch(error){
@@ -80,8 +115,8 @@ export const deleteUser = (id) => async(dispatch) => {
   dispatch({ type: userConstant.USER_DELETE_USER_FROM_ID_REQUEST});
   try{
     await userService.deleteUser(id);
-    let { data } = await userService.getAllUser();
-    dispatch({type: userConstant.USER_DELETE_USER_FROM_ID_SUCCESS, payload: data});
+    await userService.getAllUser();
+    dispatch({type: userConstant.USER_DELETE_USER_FROM_ID_SUCCESS});
   }catch(error){
     dispatch({
       type: userConstant.USER_DELETE_USER_FROM_ID_FAIL,

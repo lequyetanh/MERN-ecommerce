@@ -40,8 +40,8 @@ userRoute.route('/login').get((req, res, next) => {
 });
 
 let checkLogin = (req, res, next) => {
-  console.log(res.body.token)
-  var token = req.body['token'];
+  console.log(req.headers['authorization']);
+  var token = req.headers['authorization'];
   // console.log(token);
   try {
     // console.log(req.Cookies.token);
@@ -79,32 +79,13 @@ let checkAdmin = (req, res, next) => {
   }
 }
 
-userRoute.route('/checkUser').post( (req, res) => {
-  console.log(req.body)
-  var token = req.body['token'];
-  // console.log(token);
-  try {
-    // console.log(req.Cookies.token);
-    // var token = req.Cookies.token;
-    var data = jwt.verify(token, "secret");
-    // console.log("token verify: " + data.name);
-    userModel.findOne({
-      name: data.name
-    }).then(user => {
-      // console.log(user);
-      if (user) {
-        return res.send({
-          user: user,
-        });
-      }
-    })
-  } catch (error) {
-    // console.log("email or password incorrect")
-    return res.send({
-      loggedIn: false
-    })
-  }
+userRoute.route('/checkUser').get(checkLogin, (req, res) => {
+  return res.send({
+    user: req.data,
+    loggedIn: req.data.name
+  });
 });
+
 
 userRoute.route('/checkAdmin').get(checkLogin, checkAdmin, (req, res) => {
 
@@ -202,14 +183,28 @@ userRoute.route('/detailUser/name/:name').get((req, res) => {
   })
 })
 
-userRoute.route('/create').post((req, res, next) => {
+userRoute.route('/signin').post((req, res, next) => {
     // console.log(req.body);
-    userModel.create(req.body, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
-        }
+    userModel.find({email: req.body.email}).exec((error, data) => {
+      // console.log(data);
+      if(data[0]){
+        // tồn tại người dùng
+        res.json({message: 'email này đã tồn tại'})
+      }else{
+        // chưa tồn tại người dùng
+        userModel.findOne().limit(1).sort({id: -1}).exec((error, data) => {
+          // console.log(data);
+          req.body.id = data.id+1;
+          console.log(req.body);
+          userModel.create(req.body, (error, data) => {
+            if (error) {
+                return next(error)
+            } else {
+                res.json(data)
+            }
+        })
+        });
+      }
     })
 });
 

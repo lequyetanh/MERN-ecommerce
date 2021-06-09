@@ -13,17 +13,16 @@ function Login() {
   const [email, setEmail] = useState('lequyetanh@gmail.com');
   const [password, setPassword] = useState('12345678');
   const userLogin = useSelector((state) => state.userInfor)
-  const { loading, userInfor, error} = userLogin
-  // console.log(userLogin)
-
+  const { loading, userInfor, error, login} = userLogin
 
   useEffect(() => {
-    dispatch(userAction.getUserFromToken());
+    
   }, [])
   
   // cho thằng này lên trước useEffect thì bị lỗi
-  if(userInfor){
-    // console.log(userLogin)
+  if(login){
+    console.log(login)
+    // alert("Bạn đã login rồi")
     return <Redirect to='/'/>
   }
 
@@ -40,34 +39,43 @@ function Login() {
 
   return (
     <Fragment>
-      	<div className="container">
-          <div id="content">
-            
-            <form onSubmit={submitHandler} className="beta-form-checkout">
-              <div className="row">
-                <div className="col-sm-3"></div>
-                <div className="col-sm-6">
-                  <h4>Đăng nhập</h4>
-                  <div className="space20">&nbsp;</div>
-
-                  
-                  <div className="form-block">
-                    <label for="email">Email address*</label>
-                    <input type="email" id="email" value={email}  required onChange={(e) => setEmail(e.target.value)}/>
-                  </div>
-                  <div className="form-block">
-                    <label for="password">Password*</label>
-                    <input type="text" value="12345678" id={password} required onChange={(e) => setPassword(e.target.value)}/>
-                  </div>
-                  <div className="form-block">
-                    <button type="submit" className="btn btn-primary">Login</button>
-                  </div>
+        	<div className="" id="exampleModal" tabIndex="-1" role="dialog" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title text-center">Log In</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
-                <div className="col-sm-3"></div>
+                <div className="modal-body">
+                  <form onSubmit={submitHandler}>
+                    <div className="form-group">
+                      <label className="col-form-label">Email address</label>
+                      <input type="email" className="form-control" placeholder=" " name="email" value={email} required onChange={(e) => setEmail(e.target.value)}/>
+                    </div>
+                    <div className="form-group">
+                      <label className="col-form-label">Password</label>
+                      <input type="text" className="form-control" placeholder=" " name="Password" value={password} required onChange={(e) => setPassword(e.target.value)}/>
+                    </div>
+                    <div className="right-w3l">
+                      <input type="submit" className="form-control" value="Log in" />
+                    </div>
+                    <div className="sub-w3l">
+                      <div className="custom-control custom-checkbox mr-sm-2">
+                        <input type="checkbox" className="custom-control-input" id="customControlAutosizing" />
+                        <label className="custom-control-label" htmlFor="customControlAutosizing">Remember me?</label>
+                      </div>
+                    </div>
+                    <p className="text-center dont-do mt-3">Don't have an account?
+                      <a href="#" data-toggle="modal" data-target="#exampleModal2">
+                        Register Now</a>
+                    </p>
+                  </form>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
     </Fragment>
   );
 }

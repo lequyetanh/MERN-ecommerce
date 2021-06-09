@@ -10,9 +10,18 @@ export function getAllProduct() {
   })
 };
 
-export function getProductsFromTypeProduct(typeProduct) {
+export function getProductsFromTypeProduct(typeProduct, page, direction, id) {
   return axios({
-      url: `${config.PRODUCT_URL}/typeProduct/${typeProduct}`,
+      url: `${config.PRODUCT_URL}/typeProduct/${typeProduct}/${page}/${direction}/${id}`,
+      method: 'GET',
+  }).catch(err => {
+      console.log(err);
+  })
+};
+
+export function getProductsFromSearch(search) {
+  return axios({
+      url: `${config.PRODUCT_URL}/search/${search}`,
       method: 'GET',
   }).catch(err => {
       console.log(err);
@@ -37,9 +46,9 @@ export function get8NewProduct() {
   })
 }; 
 
-export function get8ProductRelative(typeProduct) {
+export function get8ProductRelative(typeProduct, id) {
   return axios({
-      url: `${config.PRODUCT_URL}/get8ProductRelative/${typeProduct}`,
+      url: `${config.PRODUCT_URL}/get8ProductRelative/${typeProduct}/${id}`,
       method: 'GET',
   }).catch(err => {
       console.log(err);

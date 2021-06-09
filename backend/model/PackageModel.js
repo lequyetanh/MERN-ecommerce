@@ -9,10 +9,10 @@ let packageModelSchema = new Schema({
   quatity: Number,
   rate: Number,
   rate_vote: Number,
-  content: String,
+  content: Array,
   new_price: Number,
   old_price: Number,
-  information: String,
+  information: Array,
   id:Number,
   comment: Array,
 },{
