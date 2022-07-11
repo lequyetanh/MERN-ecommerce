@@ -1,6 +1,25 @@
 import axios from 'axios';
 import * as config from './url';
 
+const accessToken = 'helloworld'
+const apiUrl = 'http://localhost:3001/api'
+
+const authAxios = axios.create({
+  baseURL: apiUrl,
+  headers: {
+    Authorization: `Bearer ${accessToken}`,
+  }
+})
+
+export function getAllProduct() {
+  return authAxios({
+      url: `${config.PRODUCT_URL}`,
+      method: 'GET',
+  }).catch(err => {
+      console.log(err);
+  })
+};
+
 export function getAllProduct() {
   return axios({
       url: `${config.PRODUCT_URL}`,
